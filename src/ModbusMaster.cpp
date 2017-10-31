@@ -702,7 +702,7 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
   u8ModbusADU[u8ModbusADUSize] = 0;
 
   // flush receive buffer before transmitting request
-  while (_serial->read() != -1);
+  while (_serial->getc() != -1);
 
   // transmit request
   if (_preTransmission)
@@ -711,11 +711,11 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
   }
   for (i = 0; i < u8ModbusADUSize; i++)
   {
-    _serial->write(u8ModbusADU[i]);
+    _serial->putc(u8ModbusADU[i]);
   }
 
   u8ModbusADUSize = 0;
-  _serial->flush();    // flush transmit buffer
+  while(_serial->writeable() > 0);    // flush transmit buffer
   if (_postTransmission)
   {
     _postTransmission();
@@ -725,12 +725,12 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
   u32StartTime = millis();
   while (u8BytesLeft && !u8MBStatus)
   {
-    if (_serial->available())
+    if (_serial->readable())
     {
 #if __MODBUSMASTER_DEBUG__
       digitalWrite(__MODBUSMASTER_DEBUG_PIN_A__, true);
 #endif
-      u8ModbusADU[u8ModbusADUSize++] = _serial->read();
+      u8ModbusADU[u8ModbusADUSize++] = _serial->getc();
       u8BytesLeft--;
 #if __MODBUSMASTER_DEBUG__
       digitalWrite(__MODBUSMASTER_DEBUG_PIN_A__, false);
