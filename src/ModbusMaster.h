@@ -59,6 +59,7 @@ Set to 1 to enable debugging features within class:
 
 // functions to manipulate words
 #include "util/word.h"
+#include "util/bits.h"
 
 
 /* _____CLASS DEFINITIONS____________________________________________________ */
