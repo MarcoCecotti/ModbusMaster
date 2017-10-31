@@ -132,7 +132,7 @@ void ModbusMaster::send(uint32_t data)
 
 void ModbusMaster::send(uint8_t data)
 {
-  send(word(data));
+  send((uint16_t)(data));
 }
 
 
@@ -834,7 +834,7 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
         {
           if (i < ku8MaxBufferSize)
           {
-            _u16ResponseBuffer[i] = word(u8ModbusADU[2 * i + 4], u8ModbusADU[2 * i + 3]);
+            _u16ResponseBuffer[i] = (uint16_t)(u8ModbusADU[2 * i + 4], u8ModbusADU[2 * i + 3]);
           }
 
           _u8ResponseBufferLength = i;
@@ -845,7 +845,7 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
         {
           if (i < ku8MaxBufferSize)
           {
-            _u16ResponseBuffer[i] = word(0, u8ModbusADU[2 * i + 3]);
+            _u16ResponseBuffer[i] = (uint16_t)(0, u8ModbusADU[2 * i + 3]);
           }
 
           _u8ResponseBufferLength = i + 1;
@@ -860,7 +860,7 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
         {
           if (i < ku8MaxBufferSize)
           {
-            _u16ResponseBuffer[i] = word(u8ModbusADU[2 * i + 3], u8ModbusADU[2 * i + 4]);
+            _u16ResponseBuffer[i] = (uint16_t)(u8ModbusADU[2 * i + 3], u8ModbusADU[2 * i + 4]);
           }
 
           _u8ResponseBufferLength = i;
