@@ -60,5 +60,27 @@ static inline uint16_t highWord(uint32_t ww)
   return (uint16_t) ((ww) >> 16);
 }
 
+/** @ingroup util_word
+    Return low byte of a 16-bit integer.
+
+    @param uint16_t ww (0x0000..0xFFFF)
+    @return low byte of input (0x00..0xFF)
+*/
+static inline uint8_t lowByte(uint16_t ww)
+{
+  return (uint8_t) ((ww) & 0xFF);
+}
+
+/** @ingroup util_word
+    Return high byte of a 16-bit integer.
+
+    @param uint16_t ww (0x0000..0xFFFF)
+    @return high byte of input (0x00..0xFF)
+*/
+static inline uint8_t highByte(uint16_t ww)
+{
+  return (uint16_t) ((ww) >> 8);
+}
+
 
 #endif /* _UTIL_WORD_H_ */
