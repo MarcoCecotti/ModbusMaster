@@ -599,14 +599,14 @@ Sequence:
 */
 uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
 {
+  Timer timer;
   uint8_t u8ModbusADU[256];
   uint8_t u8ModbusADUSize = 0;
   uint8_t i, u8Qty;
   uint16_t u16CRC;
-  uint32_t u32StartTime;
   uint8_t u8BytesLeft = 8;
   uint8_t u8MBStatus = ku8MBSuccess;
- 
+
   // assemble Modbus Request Application Data Unit
   u8ModbusADU[u8ModbusADUSize++] = _u8MBSlave;
   u8ModbusADU[u8ModbusADUSize++] = u8MBFunction;
@@ -722,7 +722,8 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
   }
 
   // loop until we run out of time or bytes, or an error occurs
-  u32StartTime = millis();
+  timer.reset();
+  timer.start();
   while (u8BytesLeft && !u8MBStatus)
   {
     if (_serial->readable())
@@ -797,7 +798,7 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
           break;
       }
     }
-    if ((millis() - u32StartTime) > ku16MBResponseTimeout)
+    if ((timer.read_ms()) > ku16MBResponseTimeout)
     {
       u8MBStatus = ku8MBResponseTimedOut;
     }
