@@ -48,7 +48,7 @@ Set to 1 to enable debugging features within class:
 
 /* _____STANDARD INCLUDES____________________________________________________ */
 // include types & constants of Wiring core API
-#include "Arduino.h"
+#include "mbed.h"
 
 /* _____UTILITY MACROS_______________________________________________________ */
 
