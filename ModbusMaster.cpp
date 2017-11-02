@@ -717,7 +717,9 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
   }
 
   u8ModbusADUSize = 0;
-  while(_serial->writeable() > 0);    // flush transmit buffer
+  /* We should wait until transmit buffer is empty
+   * This is usually hardware-dependent */
+  wait_ms(5);
   if (_postTransmission)
   {
     _postTransmission();
