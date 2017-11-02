@@ -79,7 +79,7 @@ static inline uint8_t lowByte(uint16_t ww)
 */
 static inline uint8_t highByte(uint16_t ww)
 {
-  return (uint16_t) ((ww) >> 8);
+  return (uint8_t) ((ww) >> 8);
 }
 
 
