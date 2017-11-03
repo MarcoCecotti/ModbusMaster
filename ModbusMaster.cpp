@@ -80,6 +80,12 @@ void ModbusMaster::beginTransmission(uint16_t u16Address)
   u16TransmitBufferLength = 0;
 }
 
+void ModbusMaster::txDone(void)
+{
+  _txInProgress = false;
+  _serial->attach(NULL, Serial::TxIrq);
+}
+
 // eliminate this function in favor of using existing MB request functions
 uint8_t ModbusMaster::requestFrom(uint16_t address, uint16_t quantity)
 {
@@ -711,15 +717,23 @@ uint8_t ModbusMaster::ModbusMasterTransaction(uint8_t u8MBFunction)
   {
     _preTransmission();
   }
+
+  _txInProgress = true;
+
   for (i = 0; i < u8ModbusADUSize; i++)
   {
     _serial->putc(u8ModbusADU[i]);
   }
 
+  _serial->attach(callback(this, &ModbusMaster::txDone), Serial::TxIrq);
+
   u8ModbusADUSize = 0;
   /* We should wait until transmit buffer is empty
    * This is usually hardware-dependent */
-  wait_ms(5);
+  while(_txInProgress) {
+    wait_ms(1);
+  }
+
   if (_postTransmission)
   {
     _postTransmission();

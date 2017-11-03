@@ -234,6 +234,7 @@ class ModbusMaster
     uint16_t* rxBuffer; // from Wire.h -- need to clean this up Rx
     uint8_t _u8ResponseBufferIndex;
     uint8_t _u8ResponseBufferLength;
+    bool _txInProgress;
 
     // Modbus function codes for bit access
     static const uint8_t ku8MBReadCoils                  = 0x01; ///< Modbus function 0x01 Read Coils
@@ -261,6 +262,8 @@ class ModbusMaster
     void (*_preTransmission)();
     // postTransmission callback function; gets called after a Modbus message has been sent
     void (*_postTransmission)();
+
+    void txDone(void);
 };
 #endif
 
