@@ -142,13 +142,6 @@ void ModbusMaster::send(uint8_t data)
 }
 
 
-
-
-
-
-
-
-
 uint8_t ModbusMaster::available(void)
 {
   return _u8ResponseBufferLength - _u8ResponseBufferIndex;
@@ -166,12 +159,6 @@ uint16_t ModbusMaster::receive(void)
     return 0xFFFF;
   }
 }
-
-
-
-
-
-
 
 
 /**
