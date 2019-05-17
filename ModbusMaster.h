@@ -54,13 +54,10 @@ Set to 1 to enable debugging features within class:
 
 
 /* _____PROJECT INCLUDES_____________________________________________________ */
-// functions to calculate Modbus Application Data Unit CRC
-#include "util/crc16.h"
 
 // functions to manipulate words
 #include "util/word.h"
 #include "util/bits.h"
-
 
 /* _____CLASS DEFINITIONS____________________________________________________ */
 /**
@@ -76,6 +73,8 @@ class ModbusMaster
     void idle(void (*)());
     void preTransmission(void (*)());
     void postTransmission(void (*)());
+    void logTransmit(void (*)(const uint8_t *data, size_t length));
+    void logReceive(void (*)(const uint8_t *data, size_t length, uint8_t status));
 
     // Modbus exception codes
     /**
